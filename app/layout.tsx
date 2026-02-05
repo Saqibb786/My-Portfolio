@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Saqib Ali Butt | AI Engineer & Creative Developer",
+  title: "Saqib Ali Butt - Portfolio",
   description: "Portfolio of Saqib Ali Butt, an AI Engineer and Creative Developer specializing in Computer Vision, NLP, and Building Intelligent Systems.",
   keywords: ["Saqib Ali Butt", "AI Engineer", "Software Engineer", "Computer Vision", "NLP", "React", "Next.js", "Creative Developer", "Portfolio"],
   authors: [{ name: "Saqib Ali Butt", url: "https://github.com/Saqibb786" }],
@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://your-portfolio-url.vercel.app", // User to update later
-    title: "Saqib Ali Butt | AI Engineer & Creative Developer",
+    title: "Saqib Ali Butt - Portfolio",
     description: "Building intelligent systems that see, understand, and predict.",
     siteName: "Saqib Ali Butt Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Saqib Ali Butt | AI Engineer & Creative Developer",
+    title: "Saqib Ali Butt - Portfolio",
     description: "Building intelligent systems that see, understand, and predict.",
     creator: "@SaqibAliButt", // Placeholder if user has twitter
   },
