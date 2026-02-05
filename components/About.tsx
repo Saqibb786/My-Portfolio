@@ -32,13 +32,14 @@ export default function About() {
             className="prose prose-invert text-neutral-400 text-lg leading-relaxed max-w-xl"
           >
             <p className="mb-6">
-              I'm a final-year B.S. Computer Science student at the University of Central Punjab, Lahore. 
-              My journey lies at the intersection of <span className="text-white font-medium">software engineering</span> and <span className="text-white font-medium">artificial intelligence</span>.
+                I'm a final-year Computer Science student at the University of Central Punjab, Lahore.
+              My journey lies at the intersection of <span className="text-white font-medium">Software engineering</span> and <span className="text-white font-medium">Artificial intelligence</span>.
+              I've completed the IBM Data Science Professional Certificate and multiple courses from Google/DeepLearning.AI/FreeCodeCamp.
             </p>
             <p>
-              I build systems that see, understand, and predict—from OCR tools and emotion recognition models 
-              to full-stack applications. Driven by curiosity, I'm constantly exploring new frontiers 
-              in Generative AI and Data Science to turn raw data into impact.
+              I enjoy turning complex problems into working products—whether that means training models to extract meaning from data 
+              or engineering full-stack applications that scale. With a growing interest in Generative AI and applied data science, 
+              I aim to build technology that is both technically sound and genuinely useful.
             </p>
           </motion.div>
         </div>
