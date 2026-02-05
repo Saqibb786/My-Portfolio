@@ -23,7 +23,7 @@ export default function ScrollyCanvas({ scrollYProgress }: { scrollYProgress: an
       for (let i = 1; i <= frameCount; i++) {
         const img = new Image();
         const paddedIndex = i.toString().padStart(3, "0");
-        img.src = `/Assets/ezgif-frame-${paddedIndex}.png`;
+        img.src = `/assets/ezgif-frame-${paddedIndex}.png`;
         
         img.onload = () => {
           loadedCount++;
