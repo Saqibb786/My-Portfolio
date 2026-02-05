@@ -3,37 +3,46 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
+const OVERLAY_SETTINGS = {
+  // ==================================================================================
+  // 🔧 TEXT PLACEMENT SETTINGS
+  // Adjust these values to move the text up/down.
+  // ==================================================================================
+  
+  // MOBILE: Distance from the bottom of the screen
+  // options: "bottom-20", "bottom-32", "bottom-40", "bottom-1/3"
+  mobilePosition: "bottom-40", 
+
+  // DESKTOP: Distance from the TOP of the screen
+  // options: "md:top-[50%]", "md:top-[60%]", "md:top-[70%]"
+  desktopPosition: "md:top-[60%]",
+
+  // TITLE (Name & Subtitle) Position Settings
+  // Increase these values to move the title downwards
+  titleMobilePadding: "pt-[65vh]", // +10% from original 20vh
+  titleDesktopPadding: "md:pt-[25vh]", // +5% from original 20vh
+};
+
 export default function Overlay({ scrollYProgress }: { scrollYProgress: any }) {
-    // This overlay sits "inside" the same scroll context or logic. 
-    // Since the ScrollyCanvas HAS the standard flow with 500vh height, 
-    // we can position this Overlay absolute on top of it, 
-    // OR we can rely on global window scroll if we want.
-    // However, ScrollyCanvas is the scroll container logic. 
-    // Actually, overlay is usually FIXED or STICKY on top.
-    
-    // Better approach: Overlay is a sibling to Canvas inside the sticky container.
-    // BUT the task says: "Overlay content must sit above canvas".
-    // And "Parallax speed slightly different".
-    
-    // We will use the main window scroll. ScrollyCanvas makes the page 500vh tall.
-    // We can just use `fix` positioning and map things to window scroll.
+    // ... (logic helper comments removed for brevity) ...
 
   // Opacity and Translate Maps
   const opacity1 = useTransform(scrollYProgress, [0, 0.1, 0.2], [1, 1, 0]);
   const y1 = useTransform(scrollYProgress, [0, 0.2], [0, -50]);
 
   const opacity2 = useTransform(scrollYProgress, [0.15, 0.25, 0.4, 0.5], [0, 1, 1, 0]);
-  const x2 = useTransform(scrollYProgress, [0.15, 0.4], [50, 0]); // Slide in from right? or Left: "30% scroll (left aligned)" - implies static placement? 
-  // Let's do subtle parallax.
-  
   const opacity3 = useTransform(scrollYProgress, [0.45, 0.55, 0.7, 0.8], [0, 1, 1, 0]);
+
+  // Combine positioning classes
+  const positionClasses = `absolute ${OVERLAY_SETTINGS.mobilePosition} ${OVERLAY_SETTINGS.desktopPosition}`;
+  const titleClasses = `absolute inset-0 flex flex-col items-center justify-center text-center p-4 ${OVERLAY_SETTINGS.titleMobilePadding} ${OVERLAY_SETTINGS.titleDesktopPadding}`;
 
   return (
     <div className="fixed inset-0 z-10 pointer-events-none flex flex-col justify-center w-full h-full mix-blend-difference text-white">
       {/* Section 1: Center (0%) */}
       <motion.div 
         style={{ opacity: opacity1, y: y1 }}
-        className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 pt-[20vh]"
+        className={titleClasses}
       >
         <h1 className="text-5xl md:text-8xl font-bold tracking-tight mb-4">Saqib Ali Butt</h1>
         <p className="text-lg md:text-xl font-light uppercase tracking-widest text-neutral-400">AI Engineering | Machine Learning | Data Science | NLP | Full-Stack</p>
@@ -42,9 +51,9 @@ export default function Overlay({ scrollYProgress }: { scrollYProgress: any }) {
       {/* Section 2: Left (~30%) */}
       <motion.div 
         style={{ opacity: opacity2 }}
-        className="absolute top-1/2 -translate-y-1/2 left-4 md:left-24 max-w-2xl"
+        className={`${positionClasses} -translate-y-1/2 left-4 md:left-24 max-w-2xl`}
       >
-        <h2 className="text-4xl md:text-6xl font-semibold leading-tight">
+        <h2 className="text-3xl md:text-6xl font-semibold leading-tight">
           Developing intelligent <br />
           systems that see, <br />
           <span className="text-neutral-300">understand, & predict.</span>
@@ -54,9 +63,9 @@ export default function Overlay({ scrollYProgress }: { scrollYProgress: any }) {
       {/* Section 3: Right (~60%) */}
       <motion.div 
         style={{ opacity: opacity3 }}
-        className="absolute top-1/2 -translate-y-1/2 right-4 md:right-24 text-right max-w-2xl"
+        className={`${positionClasses} -translate-y-1/2 right-4 md:right-24 text-right max-w-2xl`}
       >
-        <h2 className="text-4xl md:text-6xl font-semibold leading-tight">
+        <h2 className="text-3xl md:text-6xl font-semibold leading-tight">
           Transforming <br />
           <span className="text-neutral-300">raw data</span> into <br />
           impactful solutions.
