@@ -12,11 +12,11 @@ const OVERLAY_SETTINGS = {
   // MOBILE: Distance from the bottom of the screen
   // options: "bottom-20", "bottom-32", "bottom-40", "bottom-1/3"
   // CHANGED to top-based positioning to prevent jumpiness when address bar resizes
-  mobilePosition: "top-[75%]", 
+  mobilePosition: "top-[80%]", // Moved down 5% (was 75%)
 
   // DESKTOP: Distance from the TOP of the screen
   // options: "md:top-[50%]", "md:top-[60%]", "md:top-[70%]"
-  desktopPosition: "md:top-[60%]",
+  desktopPosition: "md:top-[65%]", // Moved down 5% (was 60%)
 
   // TITLE (Name & Subtitle) Position Settings
   // Increase these values to move the title downwards
