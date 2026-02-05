@@ -10,7 +10,7 @@ export default function Education() {
       title: "Bachelors in Computer Science",
       institution: "University of Central Punjab",
       year: "Expected 2026",
-      details: "CGPA: 3.23 | 7th Semester",
+      details: "CGPA: 3.23 | 8th Semester",
     },
     {
       title: "Intermediate in Computer Science",
