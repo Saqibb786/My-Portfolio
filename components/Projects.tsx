@@ -104,10 +104,6 @@ export default function Projects() {
           {visibleProjects.map((project) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: project.id * 0.1 }}
               className="group relative p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-colors duration-500 overflow-hidden cursor-pointer"
             >
               <a href={project.link} target="_blank" rel="noopener noreferrer" className="block h-full">

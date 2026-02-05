@@ -9,11 +9,13 @@ export default function ScrollToTop() {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      // Hero section is roughly 3.5 * windowHeight (due to ScrollyCanvas)
-      // We show the button after passing that threshold
-      if (window.scrollY > window.innerHeight * 3) {
+      // Add hysteresis to prevent flickering at the boundary
+      const scrollY = window.scrollY;
+      const threshold = window.innerHeight * 3;
+
+      if (scrollY > threshold) {
         setIsVisible(true);
-      } else {
+      } else if (scrollY < threshold - 100) { // Keep visible a bit longer when scrolling up
         setIsVisible(false);
       }
     };
