@@ -109,9 +109,16 @@ export default function ScrollyCanvas({ scrollYProgress }: { scrollYProgress: an
   useEffect(() => {
     const handleResize = () => {
       if (canvasRef.current) {
-        canvasRef.current.width = window.innerWidth;
-        canvasRef.current.height = window.innerHeight;
-        // Re-render current frame
+        // Match internal resolution to visual size for crisp rendering on high-DPI screens
+        const dpr = window.devicePixelRatio || 1;
+        canvasRef.current.width = window.innerWidth * dpr;
+        canvasRef.current.height = window.innerHeight * dpr;
+        
+        // Scale context
+        const ctx = canvasRef.current.getContext("2d");
+        if (ctx) ctx.scale(dpr, dpr);
+
+        // Re-render current frame immediately
         renderFrame(frameIndex.get());
       }
     };

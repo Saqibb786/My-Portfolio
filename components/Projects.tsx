@@ -95,7 +95,7 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-3xl md:text-5xl font-bold mb-16 tracking-tight text-neutral-200"
+          className="text-3xl md:text-5xl font-bold mb-16 tracking-tight text-neutral-200 text-balance"
         >
           Featured Projects
         </motion.h2>
@@ -106,7 +106,7 @@ export default function Projects() {
               key={project.id}
               className="group relative p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-colors duration-500 overflow-hidden cursor-pointer"
             >
-              <a href={project.link} target="_blank" rel="noopener noreferrer" className="block h-full">
+              <a href={project.link} target="_blank" rel="noopener noreferrer" className="block h-full" aria-label={`View project: ${project.title}`}>
                 {/* Glow Effect */}
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 
@@ -115,8 +115,8 @@ export default function Projects() {
                    <ArrowUpRight className="text-neutral-500 group-hover:text-white transition-colors duration-300" />
                 </div>
   
-                <h3 className="text-2xl font-semibold mb-2 group-hover:text-neutral-100 transition-colors">{project.title}</h3>
-                <p className="text-neutral-400 group-hover:text-neutral-300 transition-colors leading-relaxed">
+                <h3 className="text-2xl font-semibold mb-2 group-hover:text-neutral-100 transition-colors text-balance">{project.title}</h3>
+                <p className="text-neutral-400 group-hover:text-neutral-300 transition-colors leading-relaxed text-pretty">
                   {project.description}
                 </p>
               </a>
@@ -130,6 +130,7 @@ export default function Projects() {
                  <button
                     onClick={() => setShowAll(!showAll)}
                     className="inline-flex items-center gap-2 text-sm font-medium text-neutral-400 hover:text-white transition-colors"
+                    aria-label={showAll ? "Show fewer projects" : "Show more projects"}
                   >
                       {showAll ? (
                           <>Show Less <ChevronUp className="w-4 h-4" /></>

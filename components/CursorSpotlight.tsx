@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useVelocity, useTransform } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring, useVelocity, useTransform, useAnimationFrame } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
 
 export default function CursorSpotlight() {
   const mouseX = useMotionValue(-100);
@@ -20,34 +20,30 @@ export default function CursorSpotlight() {
   const [velocityRotation, setVelocityRotation] = useState(0);
   const [stretchScale, setStretchScale] = useState({ x: 1, y: 1 });
 
-  // Update transforms based on velocity (60fps loop)
-  useEffect(() => {
-    const updatePhysics = () => {
-      const vx = velocityX.get();
-      const vy = velocityY.get();
-      const speed = Math.sqrt(vx * vx + vy * vy);
-      
-      // Calculate rotation based on movement direction
-      // Only update if moving fast enough to avoid jitter
-      if (speed > 5) {
-        const angle = Math.atan2(vy, vx) * (180 / Math.PI);
-        setVelocityRotation(angle);
-      }
+  // ⚡ OPTIMIZATION: synchronizing physics with screen refresh rate
+  useAnimationFrame(() => {
+    const vx = velocityX.get();
+    const vy = velocityY.get();
+    const speed = Math.sqrt(vx * vx + vy * vy);
+    
+    // Calculate rotation based on movement direction
+    // Threshold reduced for better responsiveness
+    if (speed > 1) {
+      const angle = Math.atan2(vy, vx) * (180 / Math.PI);
+      setVelocityRotation(angle);
+    }
 
-      // Calculate Elastic Stretch (Squash & Stretch)
-      // Max stretch factor of 0.5 (1.5x length) at high speeds
-      const constant = Math.min(speed / 1000, 0.5);
-      
-      if (speed > 10 && !hovering) {
-        setStretchScale({ x: 1 + constant, y: 1 - constant * 0.4 });
-      } else {
-        setStretchScale({ x: 1, y: 1 }); // Reset when stopped or hovering
-      }
-    };
-
-    const interval = setInterval(updatePhysics, 16);
-    return () => clearInterval(interval);
-  }, [velocityX, velocityY, hovering]);
+    // Calculate Elastic Stretch (Squash & Stretch)
+    // Dynamic clamping for smoother deformations
+    const constant = Math.min(speed / 1500, 0.4);
+    
+    if (speed > 5 && !hovering) {
+      setStretchScale({ x: 1 + constant, y: 1 - constant * 0.4 });
+    } else {
+       // Smoothly return to square
+       setStretchScale({ x: 1, y: 1 });
+    }
+  });
 
   // Mouse Listeners
   useEffect(() => {
