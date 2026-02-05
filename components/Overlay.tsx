@@ -45,8 +45,9 @@ export default function Overlay({ scrollYProgress }: { scrollYProgress: any }) {
         className="absolute top-1/2 -translate-y-1/2 left-4 md:left-24 max-w-2xl"
       >
         <h2 className="text-4xl md:text-6xl font-semibold leading-tight">
-          I build <span className="text-neutral-300">cinematic</span> <br />
-          digital experiences.
+          Developing intelligent <br />
+          systems that see, <br />
+          <span className="text-neutral-300">understand, & predict.</span>
         </h2>
       </motion.div>
 
@@ -56,9 +57,9 @@ export default function Overlay({ scrollYProgress }: { scrollYProgress: any }) {
         className="absolute top-1/2 -translate-y-1/2 right-4 md:right-24 text-right max-w-2xl"
       >
         <h2 className="text-4xl md:text-6xl font-semibold leading-tight">
-          Bridging design, <br />
-          engineering, and <br />
-          <span className="text-neutral-300">intelligence.</span>
+          Transforming <br />
+          <span className="text-neutral-300">raw data</span> into <br />
+          impactful solutions.
         </h2>
       </motion.div>
     </div>

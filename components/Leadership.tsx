@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Users, Star, ArrowRight } from "lucide-react";
+import { Users, Star } from "lucide-react";
 
 export default function Leadership() {
   const activities = [
@@ -88,10 +88,7 @@ export default function Leadership() {
                       </p>
                   </div>
                   
-                  {/* Arrow Icon */}
-                  <div className="hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 -translate-x-4 group-hover:translate-x-0">
-                      <ArrowRight className="w-6 h-6 text-neutral-500" />
-                  </div>
+
 
               </div>
             </motion.div>
