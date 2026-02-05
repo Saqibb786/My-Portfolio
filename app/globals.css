@@ -51,4 +51,9 @@ html {
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+
+/* Custom Selection Style for High Contrast */
+::selection {
+  background: #ffffff;
+  color: #000000;
 }
