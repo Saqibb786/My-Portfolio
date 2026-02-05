@@ -78,7 +78,7 @@ export default function Projects() {
           transition={{ duration: 0.6 }}
           className="text-3xl md:text-5xl font-bold mb-16 tracking-tight text-neutral-200"
         >
-          Selected Works
+          Featured Projects
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">

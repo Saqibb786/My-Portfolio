@@ -9,10 +9,12 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Handle scroll effect for glassmorphism intensity
+  // Handle scroll effect for visibility and glassmorphism
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const scrollY = window.scrollY;
+      const heroHeight = window.innerHeight * 3.5; // Approx end of 500vh scroll sequence
+      setScrolled(scrollY > heroHeight);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -28,11 +30,11 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
+      initial={{ y: 0 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-black/50 backdrop-blur-md border-b border-white/10" : "bg-transparent"
+        scrolled ? "bg-black/80 backdrop-blur-md border-b border-white/10" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -42,7 +44,13 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: scrolled ? 1 : 0, y: scrolled ? 0 : -20 }}
+          transition={{ duration: 0.5 }}
+          className="hidden md:flex items-center gap-8 pointer-events-none data-[visible=true]:pointer-events-auto"
+          data-visible={scrolled}
+        >
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -60,15 +68,17 @@ export default function Navbar() {
           >
             GitHub
           </a>
-        </div>
+        </motion.div>
 
         {/* Mobile Menu Toggle */}
-        <button
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: scrolled ? 1 : 0 }}
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-white p-2"
+          className={`md:hidden text-white p-2 ${!scrolled && "pointer-events-none"}`}
         >
           {isOpen ? <X /> : <Menu />}
-        </button>
+        </motion.button>
       </div>
 
       {/* Mobile Dropdown */}
