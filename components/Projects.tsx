@@ -69,7 +69,7 @@ export default function Projects() {
   const visibleProjects = showAll ? projects : projects.slice(0, 6);
 
   return (
-    <section className="relative w-full py-32 px-4 md:px-12 bg-[#121212] text-white z-20">
+    <section id="projects" className="relative w-full py-32 px-4 md:px-12 bg-[#121212] text-white z-20">
       <div className="max-w-7xl mx-auto">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}

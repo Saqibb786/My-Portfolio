@@ -11,7 +11,7 @@ const skills = [
 
 export default function About() {
   return (
-    <section className="relative w-full py-32 px-4 md:px-12 bg-[#121212] text-white z-20">
+    <section id="about" className="relative w-full py-32 px-4 md:px-12 bg-[#121212] text-white z-20">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16">
         
         {/* Bio Section */}

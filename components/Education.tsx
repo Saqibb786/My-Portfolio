@@ -38,7 +38,7 @@ export default function Education() {
   const displayedCertifications = customShowAll ? certifications : certifications.slice(0, initialLoadCount);
 
   return (
-    <section className="relative w-full py-32 px-4 md:px-12 bg-[#121212] text-white z-20">
+    <section id="education" className="relative w-full py-32 px-4 md:px-12 bg-[#121212] text-white z-20">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
         
         {/* Education Column */}

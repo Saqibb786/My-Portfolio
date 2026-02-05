@@ -10,6 +10,7 @@ import Education from "@/components/Education";
 import Leadership from "@/components/Leadership";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -21,6 +22,7 @@ export default function Home() {
 
   return (
     <main className="relative w-full bg-[#121212]">
+       <Navbar />
        {/* 500vh Scroll Container */}
        <div ref={containerRef} className="relative h-[500vh]">
           {/* Sticky Wrapper for Canvas + Overlay */}

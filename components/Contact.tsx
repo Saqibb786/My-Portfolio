@@ -43,7 +43,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="relative w-full py-24 px-4 md:px-12 bg-[#121212] border-t border-white/10 z-20 overflow-hidden">
+    <section id="contact" className="relative w-full py-24 px-4 md:px-12 bg-[#121212] border-t border-white/10 z-20 overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
         
         {/* Contact Info Column */}
@@ -80,6 +80,12 @@ export default function Contact() {
                         <Phone className="w-5 h-5" />
                     </div>
                     <span className="text-lg">+92 324 4342068</span>
+                </a>
+                <a href="https://wa.me/qr/XEFTOBUHK4NQD1" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-neutral-300 hover:text-white transition-colors group">
+                     <div className="p-3 rounded-full bg-white/5 group-hover:bg-white/10 transition-colors">
+                        <MessageCircle className="w-5 h-5" />
+                    </div>
+                    <span className="text-lg">Chat on WhatsApp</span>
                 </a>
             </motion.div>
         </div>

@@ -36,7 +36,7 @@ export default function Leadership() {
   ];
 
   return (
-    <section className="relative w-full py-20 px-4 md:px-12 bg-[#121212] text-white z-20 overflow-hidden">
+    <section id="leadership" className="relative w-full py-20 px-4 md:px-12 bg-[#121212] text-white z-20 overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
       
