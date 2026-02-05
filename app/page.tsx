@@ -11,6 +11,7 @@ import Leadership from "@/components/Leadership";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,6 +42,7 @@ export default function Home() {
          <Contact />
          <Footer />
        </div>
+       <ScrollToTop />
     </main>
   );
 }
