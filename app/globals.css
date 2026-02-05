@@ -23,12 +23,29 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
+/* Custom Scrollbar for a Premium Feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Utility to hide scrollbar but keep functionality if needed */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
   -ms-overflow-style: none;
   /* IE and Edge */

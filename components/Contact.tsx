@@ -143,7 +143,7 @@ export default function Contact() {
                         id="message" 
                         rows={4} 
                         required 
-                        className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors resize-none"
+                        className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all placeholder:text-neutral-600"
                         placeholder="Tell me about your project..."
                     />
                 </div>
