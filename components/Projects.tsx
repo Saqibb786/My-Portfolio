@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Project {
   id: number;
@@ -66,7 +66,26 @@ const projects: Project[] = [
 
 export default function Projects() {
   const [showAll, setShowAll] = useState(false);
-  const visibleProjects = showAll ? projects : projects.slice(0, 6);
+  const [visibleLimit, setVisibleLimit] = useState(6); // Default to desktop
+
+  // Adjust limit based on screen size
+  useEffect(() => {
+    const handleResize = () => {
+       if (window.innerWidth < 768) {
+           setVisibleLimit(3);
+       } else {
+           setVisibleLimit(6);
+       }
+    };
+    
+    // Initial check
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const visibleProjects = showAll ? projects : projects.slice(0, visibleLimit);
 
   return (
     <section id="projects" className="relative w-full py-32 px-4 md:px-12 bg-[#121212] text-white z-20">
@@ -110,7 +129,7 @@ export default function Projects() {
         </div>
         
         {/* Collapsible Button */}
-        {projects.length > 6 && (
+        {projects.length > visibleLimit && (
             <div className="mt-12 text-center">
                  <button
                     onClick={() => setShowAll(!showAll)}
@@ -119,7 +138,7 @@ export default function Projects() {
                       {showAll ? (
                           <>Show Less <ChevronUp className="w-4 h-4" /></>
                       ) : (
-                          <>Show More ({projects.length - 6} hidden) <ChevronDown className="w-4 h-4" /></>
+                          <>Show More ({projects.length - visibleLimit} hidden) <ChevronDown className="w-4 h-4" /></>
                       )}
                   </button>
             </div>
