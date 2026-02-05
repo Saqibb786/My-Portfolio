@@ -19,24 +19,48 @@ export default function ScrollyCanvas({ scrollYProgress }: { scrollYProgress: an
     let loadedCount = 0;
     const imgArray: HTMLImageElement[] = [];
 
-    const loadImages = async () => {
-      for (let i = 1; i <= frameCount; i++) {
+    // Prioritize Frame 1 to unlock UI immediately
+    const loadFirstFrame = () => {
+        const img = new Image();
+        img.src = `/media/ezgif-frame-001.webp`;
+        img.onload = () => {
+            imgArray[0] = img;
+            setImages(prev => {
+                const newArgs = [...prev];
+                newArgs[0] = img;
+                return newArgs;
+            });
+            setIsLoaded(true); // Unlock UI immediately
+            loadRemainingFrames(); // Start background load
+        };
+        img.onerror = () => {
+             console.error("Critical: Failed to load first frame.");
+             // Try to unlock anyway to avoid total softlock
+             setIsLoaded(true);
+             loadRemainingFrames(); 
+        };
+    };
+
+    const loadRemainingFrames = async () => {
+      for (let i = 2; i <= frameCount; i++) {
         const img = new Image();
         const paddedIndex = i.toString().padStart(3, "0");
-        img.src = `/media/ezgif-frame-${paddedIndex}.png`;
+        img.src = `/media/ezgif-frame-${paddedIndex}.webp`;
         
         img.onload = () => {
-          loadedCount++;
-          if (loadedCount === frameCount) {
-            setImages(imgArray);
-            setIsLoaded(true);
-          }
+           // Store safely
+           setImages(prev => {
+                const newArgs = [...prev]; // Copy current state (might be sparse)
+                if (!newArgs[0] && imgArray[0]) newArgs[0] = imgArray[0]; // Ensure frame 1 persists
+                newArgs[i - 1] = img;
+                return newArgs;
+           });
         };
-        imgArray[i - 1] = img; // 0-based index for array
+        // No error blocking
       }
     };
 
-    loadImages();
+    loadFirstFrame();
   }, []);
 
   // Draw frame logic
