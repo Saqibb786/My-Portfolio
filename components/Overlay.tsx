@@ -19,7 +19,7 @@ const OVERLAY_SETTINGS = {
 
   // TITLE (Name & Subtitle) Position Settings
   // Increase these values to move the title downwards
-  titleMobilePadding: "pt-[65vh]", // +10% from original 20vh
+  titleMobilePadding: "pt-[30vh]", // +10% from original 20vh
   titleDesktopPadding: "md:pt-[25vh]", // +5% from original 20vh
 };
 
