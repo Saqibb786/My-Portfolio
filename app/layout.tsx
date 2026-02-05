@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://saqib-portfolio-six.vercel.app/", // User to update later
+    url: "https://saqib-portfolio786.vercel.app/",
     title: "Saqib Ali Butt - Portfolio",
     description: "Building intelligent systems that see, understand, and predict.",
     siteName: "Saqib Ali Butt Portfolio",
