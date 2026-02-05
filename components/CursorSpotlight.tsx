@@ -1,49 +1,33 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useVelocity, useTransform, useAnimationFrame } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function CursorSpotlight() {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Physics: Smooth but responsive
-  const springConfig = { damping: 25, stiffness: 300 };
-  const smoothX = useSpring(mouseX, springConfig);
-  const smoothY = useSpring(mouseY, springConfig);
-
-  // Velocity for squash & stretch
-  const velocityX = useVelocity(smoothX);
-  const velocityY = useVelocity(smoothY);
-
   const [hovering, setHovering] = useState(false);
-  const [velocityRotation, setVelocityRotation] = useState(0);
-  const [stretchScale, setStretchScale] = useState({ x: 1, y: 1 });
 
-  // ⚡ OPTIMIZATION: synchronizing physics with screen refresh rate
-  useAnimationFrame(() => {
-    const vx = velocityX.get();
-    const vy = velocityY.get();
-    const speed = Math.sqrt(vx * vx + vy * vy);
+  // Helper to create a following spring
+  // stronger stiffness = closer follow, higher damping = less waffle
+  const useFollower = (index: number) => {
+    // Slower physics: Reduce starting stiffness
+    // Wider spread: Increase the gap between trail items
+    // Index 0 is the closest trail, Index 11 is the furthest
+    const stiffness = hovering ? 500 : 200 - (index * 15); // ranges from 200 down to ~35
+    const damping = hovering ? 30 : 20 - (index * 1); // ranges from 20 down to ~9
     
-    // Calculate rotation based on movement direction
-    // Threshold reduced for better responsiveness
-    if (speed > 1) {
-      const angle = Math.atan2(vy, vx) * (180 / Math.PI);
-      setVelocityRotation(angle);
-    }
+    return {
+      x: useSpring(mouseX, { stiffness, damping }),
+      y: useSpring(mouseY, { stiffness, damping }),
+    };
+  };
 
-    // Calculate Elastic Stretch (Squash & Stretch)
-    // Dynamic clamping for smoother deformations
-    const constant = Math.min(speed / 1500, 0.4);
-    
-    if (speed > 5 && !hovering) {
-      setStretchScale({ x: 1 + constant, y: 1 - constant * 0.4 });
-    } else {
-       // Smoothly return to square
-       setStretchScale({ x: 1, y: 1 });
-    }
-  });
+  // Generate 12 trail particles
+  // We use a fixed array to ensure hook consistency
+  const trailCount = 12;
+  const trails = Array.from({ length: trailCount }).map((_, i) => useFollower(i));
 
   // Mouse Listeners
   useEffect(() => {
@@ -53,14 +37,14 @@ export default function CursorSpotlight() {
     };
 
     const handleMouseOver = (e: MouseEvent) => {
-        const target = e.target as HTMLElement;
-        const isInteractive = 
-            target.tagName === 'A' || 
-            target.tagName === 'BUTTON' || 
-            target.closest('a') || 
-            target.closest('button') ||
-            window.getComputedStyle(target).cursor === 'pointer';
-        setHovering(!!isInteractive);
+      const target = e.target as HTMLElement;
+      const isInteractive = 
+          target.tagName === 'A' || 
+          target.tagName === 'BUTTON' || 
+          target.closest('a') || 
+          target.closest('button') ||
+          window.getComputedStyle(target).cursor === 'pointer';
+      setHovering(!!isInteractive);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -73,41 +57,42 @@ export default function CursorSpotlight() {
 
   return (
     <>
-        {/* The "Architect" Cursor: Single Element */}
+      {/* TRAIL PARTICLES (Rendered first to be behind) */}
+      {trails.map((trail, index) => (
         <motion.div
-            className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference bg-white"
+            key={index}
+            className="fixed top-0 left-0 pointer-events-none z-[9998] mix-blend-difference bg-white rounded-full"
             style={{
-                x: smoothX,
-                y: smoothY,
+                x: trail.x,
+                y: trail.y,
                 translateX: "-50%",
                 translateY: "-50%",
-                // Physics Transforms
-                rotate: hovering ? 0 : velocityRotation, 
-                scaleX: hovering ? 1 : stretchScale.x, 
-                scaleY: hovering ? 1 : stretchScale.y,
             }}
             animate={{
-                // IDLE: Hollow Diamond (12px, 45deg, transparent bg, white border)
-                // HOVER: Solid Circle (54px, 0deg, white bg, no border) - Reduced 10% from 60
-                width: hovering ? 54 : 12,
-                height: hovering ? 54 : 12,
-                borderRadius: hovering ? "50%" : "0%", // Circle vs Square
-                rotate: hovering ? 0 : 45, // Rotate diamond 45deg
-                backgroundColor: hovering ? "#ffffff" : "rgba(255,255,255,0)", // Solid vs Transparent
-                borderWidth: hovering ? 0 : 2, // No border vs Border
-                borderColor: "#ffffff"
+                width: hovering ? 54 : 16 - (index * 0.8), // Gradual size reduction
+                height: hovering ? 54 : 16 - (index * 0.8),
+                opacity: hovering ? 0 : 0.8 - (index * 0.05), // Fade out tail
             }}
-            transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 25,
-                // layout: { duration: 0.3 }
-            }}
-        >
-             {/* Optional: Tiny center dot for precision during idle? 
-                 No, let's keep it strictly single element as requested "instead of dot AND bounding"
-             */}
-        </motion.div>
+            transition={{ duration: 0.2 }}
+        />
+      ))}
+
+      {/* HEAD CURSOR */}
+      <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference bg-white rounded-full"
+        style={{
+          x: useSpring(mouseX, { stiffness: 500, damping: 30 }),
+          y: useSpring(mouseY, { stiffness: 500, damping: 30 }),
+          translateX: "-50%",
+          translateY: "-50%",
+        }}
+        animate={{
+            width: hovering ? 54 : 12, // 10% reduced size on hover (60->54)
+            height: hovering ? 54 : 12,
+            opacity: 1,
+        }}
+        transition={{ duration: 0.2 }}
+      />
     </>
   );
 }
