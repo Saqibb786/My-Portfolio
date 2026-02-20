@@ -104,7 +104,7 @@ export default function Contact() {
                         <label htmlFor="name" className="text-sm font-medium text-neutral-400">Name</label>
                         <input 
                             type="text" 
-                            name="name" 
+                            name="from_name" 
                             id="name" 
                             required 
                             className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors"
@@ -115,7 +115,7 @@ export default function Contact() {
                         <label htmlFor="email" className="text-sm font-medium text-neutral-400">Email</label>
                         <input 
                             type="email" 
-                            name="email" 
+                            name="reply_to" 
                             id="email" 
                             required 
                             className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-white/30 transition-colors"
@@ -139,7 +139,7 @@ export default function Contact() {
                 <div className="space-y-2">
                     <label htmlFor="message" className="text-sm font-medium text-neutral-400">Message</label>
                     <textarea 
-                        name="message" 
+                        name="message_html" 
                         id="message" 
                         rows={4} 
                         required 
