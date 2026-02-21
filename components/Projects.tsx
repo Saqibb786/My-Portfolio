@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowUpRight, ChevronDown, ChevronUp, Github, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface Project {
@@ -10,6 +10,7 @@ interface Project {
   category: string;
   description: string;
   link?: string;
+  liveLink?: string;
 }
 
 const projects: Project[] = [
@@ -33,7 +34,7 @@ const projects: Project[] = [
     category: "Machine Learning",
     description: "Machine learning model to predict the likelihood of a heart stroke based on various health metrics.",
     link: "https://github.com/Saqibb786/Heart-Stroke-Prediction",
-  
+    liveLink: "https://heartstrokeprediction-by-saqib.streamlit.app/",
   },
   {
     id: 4,
@@ -48,6 +49,7 @@ const projects: Project[] = [
     category: "React / TypeScript",
     description: "Responsive game discovery platform with a clean, component-driven UI.",
     link: "https://github.com/Saqibb786/GameHub",
+    liveLink: "https://game-hub-by-saqib.vercel.app",
   },
   {
     id: 6,
@@ -55,6 +57,7 @@ const projects: Project[] = [
     category: "Full Stack / TypeScript",
     description: "A comprehensive developer platform designed to track progress, showcase skills, and engage with the tech community.",
     link: "https://github.com/Saqibb786/DevPeaks",
+    liveLink: "https://devpeaksolutions.vercel.app/",
   },
   {
     id: 7,
@@ -119,22 +122,56 @@ export default function Projects() {
           {visibleProjects.map((project) => (
             <motion.div
               key={project.id}
-              className="group relative p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-colors duration-500 overflow-hidden cursor-pointer"
+              className="group relative p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/10 transition-colors duration-500 overflow-hidden flex flex-col h-full"
             >
-              <a href={project.link} target="_blank" rel="noopener noreferrer" className="block h-full" aria-label={`View project: ${project.title}`}>
-                {/* Glow Effect */}
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                
-                <div className="flex justify-between items-start mb-8">
+              {/* Invisible Full Card Link */}
+              <a 
+                href={project.liveLink || project.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="absolute inset-0 z-0" 
+                aria-label={`View project: ${project.title}`}
+              />
+
+              {/* Glow Effect */}
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              
+              <div className="flex-grow relative z-10 pointer-events-none">
+                <div className="flex justify-between items-start mb-8 pointer-events-auto">
                    <span className="text-xs font-mono text-neutral-400 uppercase tracking-widest border border-white/20 px-2 py-1 rounded-full">{project.category}</span>
-                   <ArrowUpRight className="text-neutral-500 group-hover:text-white transition-colors duration-300" />
+                   <div className="flex gap-4 items-center">
+                       {project.link && (
+                          <a 
+                            href={project.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-neutral-500 hover:text-white transition-colors p-1" 
+                            aria-label="GitHub Repository"
+                            title="View Source Code"
+                          >
+                             <Github className="w-5 h-5" />
+                          </a>
+                       )}
+                       {project.liveLink && (
+                          <a 
+                            href={project.liveLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-neutral-500 hover:text-white transition-colors p-1" 
+                            aria-label="Live Demo"
+                            title="View Live Site"
+                          >
+                             <ExternalLink className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                          </a>
+                       )}
+                   </div>
                 </div>
   
                 <h3 className="text-2xl font-semibold mb-2 group-hover:text-neutral-100 transition-colors text-balance">{project.title}</h3>
                 <p className="text-neutral-400 group-hover:text-neutral-300 transition-colors leading-relaxed text-pretty">
                   {project.description}
                 </p>
-              </a>
+              </div>
             </motion.div>
           ))}
         </div>
