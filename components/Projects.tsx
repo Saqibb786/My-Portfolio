@@ -51,10 +51,10 @@ const projects: Project[] = [
   },
   {
     id: 6,
-    title: "Vaultify",
-    category: "Java / Backend",
-    description: "Secure banking backend with robust transaction processing logic.",
-    link: "https://github.com/Saqibb786/Vaultify",
+    title: "DevPeaks",
+    category: "Full Stack / TypeScript",
+    description: "A comprehensive developer platform designed to track progress, showcase skills, and engage with the tech community.",
+    link: "https://github.com/Saqibb786/DevPeaks",
   },
   {
     id: 7,
@@ -69,6 +69,13 @@ const projects: Project[] = [
     category: "Machine Learning",
     description: "Risk assessment system using KNN and Naive Bayes to predict heart and diabetes risk from medical data.",
     link: "https://github.com/Saqibb786/Heart_Diabetes_Prediction_FastApi",
+  },
+  {
+    id: 9,
+    title: "Vaultify",
+    category: "Java / Backend",
+    description: "Secure banking backend with robust transaction processing logic.",
+    link: "https://github.com/Saqibb786/Vaultify"
   },
 ];
 
