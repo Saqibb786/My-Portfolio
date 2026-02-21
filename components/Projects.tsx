@@ -29,10 +29,11 @@ const projects: Project[] = [
   },
   {
     id: 3,
-    title: "Heart & Diabetes Prediction",
+    title: "Heart Stroke Prediction",
     category: "Machine Learning",
-    description: "Risk assessment system using KNN and Naive Bayes to predict heart and diabetes risk from medical data.",
-    link: "https://github.com/Saqibb786/Heart_Diabetes_Prediction_FastApi",
+    description: "Machine learning model to predict the likelihood of a heart stroke based on various health metrics.",
+    link: "https://github.com/Saqibb786/Heart-Stroke-Prediction",
+  
   },
   {
     id: 4,
@@ -61,6 +62,13 @@ const projects: Project[] = [
     category: "React Native / Mobile",
     description: "Interactive mobile application built with Expo for smooth user navigation.",
     link: "https://github.com/Saqibb786/Aspen",
+  },
+  {
+    id: 8,
+    title: "Heart & Diabetes Prediction",
+    category: "Machine Learning",
+    description: "Risk assessment system using KNN and Naive Bayes to predict heart and diabetes risk from medical data.",
+    link: "https://github.com/Saqibb786/Heart_Diabetes_Prediction_FastApi",
   },
 ];
 

@@ -1,45 +1,43 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
-  const [progress, setProgress] = useState(0);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
+  const count = useMotionValue(0);
+  // Transform the raw spring/tween float into a rounded integer string
+  const rounded = useTransform(count, (latest) => Math.round(latest));
+  // Transform count to scale 0-1 for the progress bar
+  const progressScaleX = useTransform(count, [0, 100], [0, 1]);
 
   useEffect(() => {
-    // Prevent scrolling while loading
+    // Prevent scrolling and body interaction during load
     document.body.style.overflow = "hidden";
+    document.body.style.pointerEvents = "none";
 
-    const duration = 2000; // 2 seconds total loading animation
-    const interval = 20; // Update every 20ms
-    const steps = duration / interval;
-    let step = 0;
-
-    const timer = setInterval(() => {
-      step++;
-      // Easing function for smoother progress (ease-out cubic)
-      const t = step / steps;
-      const easedProgress = Math.min(Math.round((1 - Math.pow(1 - t, 3)) * 100), 100);
-      
-      setProgress(easedProgress);
-
-      if (step >= steps) {
-        clearInterval(timer);
+    // Play count animation over 2 seconds
+    const controls = animate(count, 100, {
+      duration: 2,
+      ease: "easeOut",
+      onComplete: () => {
+        // Trigger the exit animation
         setIsAnimatingOut(true);
-        // Wait for exit animation to finish before unmounting
+        // Clean up and notify parent after exit fade completes
         setTimeout(() => {
-            document.body.style.overflow = "auto";
+            document.body.style.overflow = "";
+            document.body.style.pointerEvents = "";
             onComplete();
-        }, 800);
+        }, 800); // matches the transition duration 0.8s
       }
-    }, interval);
+    });
 
     return () => {
-      clearInterval(timer);
-      document.body.style.overflow = "auto";
+      controls.stop();
+      document.body.style.overflow = "";
+      document.body.style.pointerEvents = "";
     };
-  }, [onComplete]);
+  }, [count, onComplete]);
 
   return (
     <AnimatePresence>
@@ -49,10 +47,10 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="fixed inset-0 z-[9999] bg-[#0a0a0a] flex flex-col items-center justify-center pointer-events-none"
+          className="fixed inset-0 z-[99999] bg-[#0a0a0a] flex flex-col items-center justify-center"
         >
           {/* Animated Background Gradients for subtle depth */}
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
              <motion.div 
                animate={{ 
                   scale: [1, 1.2, 1],
@@ -72,7 +70,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     className="text-7xl md:text-9xl font-bold tracking-tighter text-white tabular-nums leading-none"
                 >
-                    {progress}
+                    {rounded}
                 </motion.span>
                 <motion.span 
                      initial={{ opacity: 0 }}
@@ -87,8 +85,10 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
              {/* Minimal Progress Bar */}
              <div className="w-48 h-[2px] bg-white/10 mt-8 rounded-full overflow-hidden">
                 <motion.div 
-                   className="h-full bg-white"
-                   style={{ width: `${progress}%` }}
+                   className="h-full bg-white origin-left"
+                   style={{ 
+                      scaleX: progressScaleX 
+                   }}
                 />
              </div>
 
@@ -102,8 +102,6 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
                 Initializing Experience
              </motion.p>
           </div>
-
-          {/* Slices for exit animation (Optional, currently using fade) */}
         </motion.div>
       )}
     </AnimatePresence>
